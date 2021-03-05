@@ -1,0 +1,23 @@
+{
+    "name": "openai-node",
+    "version": "1.0.0",
+    "description": "A library for using the OpenAI GPT-3 API in Node.",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "keywords": [
+        "openai",
+        "gpt-3",
+        "gpt3"
+    ],
+    "author": "Joseph Tams",
+    "license": "MIT",
+    "dependencies": {
+        "request": "^2.88.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jtams/openai-node"
+    }
+}
