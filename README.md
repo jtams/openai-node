@@ -10,6 +10,9 @@ _`organization` is optional for your organization ID, but if it's set to somethi
 
 ## Usage
 
+Install
+`npm i openai-node`
+
 ### Completion
 
 Completion takes the normal GPT-3 parameters. The only one that is actually required in this library is `prompt`, the rest have the default values shown below.
