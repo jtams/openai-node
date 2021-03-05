@@ -10,7 +10,8 @@ _`organization` is optional for your organization ID, but if it's set to somethi
 
 ## Usage
 
-Install
+### Install
+
 `npm i openai-node`
 
 ### Completion
