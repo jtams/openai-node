@@ -59,7 +59,7 @@ var openai = require("openai-node");
 openai.api_key = "YOUR API KEY"; // required
 openai.organization = "YOUR ORGANIZATION ID"; // optional
 
-//Completion
+//Search
 openai
     .search({
         engine: "davinci",
