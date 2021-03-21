@@ -1,142 +1,96 @@
-const request = require("request");
+// const engine = require("./methods/engine");
+const Search = require("./methods/Search");
+const EngineList = require("./methods/EngineList");
+const EngineRetrieve = require("./methods/EngineRetrieve");
+const CompletionCreate = require("./methods/CompletionCreate");
+const ClassificationCreate = require("./methods/ClassificationCreate");
+const AnswerCreate = require("./methods/AnswerCreate");
+const Headers = require("./methods/Headers");
+const FileList = require("./methods/FileList");
+const FileCreate = require("./methods/FileCreate");
+const FileDelete = require("./methods/FileDelete");
+
 module.exports = {
     api_key: null,
     organization: null,
 
-    completion: ({
-        engine = "davinci",
-        prompt,
-        temperature = 1,
-        max_tokens = 64,
-        top_p = 1,
-        frequency_penalty = 0,
-        presence_penalty = 1,
-        n = 1,
-        stream = false,
-        logprobs = null,
-        echo = false,
-        best_of = 1,
-        stop = null,
-    } = {}) => {
-        if (!module.exports.api_key) throw new Error("Missing API Key. openai.api_key = YOUR_API_KEY");
-        return new Promise((resolve, reject) => {
-            var options = {
-                method: "POST",
-                url: `https://api.openai.com/v1/engines/${engine}/completions`,
-                headers: {
-                    Authorization: `Bearer ${module.exports.api_key}`,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    prompt: prompt,
-                    temperature: temperature,
-                    max_tokens: max_tokens,
-                    top_p: top_p,
-                    frequency_penalty: frequency_penalty,
-                    presence_penalty: presence_penalty,
-                    n: n,
-                    best_of: best_of,
-                    stop: stop,
-                    echo: echo,
-                    stream: stream,
-                    logprobs: logprobs,
-                }),
+    Completion: (function () {
+        function create(data) {
+            return CompletionCreate(new Headers(module.exports.api_key, module.exports.organization), data);
+        }
+
+        return { create };
+    })(),
+
+    Engine: (function () {
+        var engine = undefined;
+
+        function search(data) {
+            return Search(new Headers(module.exports.api_key, module.exports.organization), { engine: engine, ...data });
+        }
+
+        function list() {
+            return EngineList(new Headers(module.exports.api_key, module.exports.organization));
+        }
+
+        function retreive(engine) {
+            return EngineRetrieve(new Headers(module.exports.api_key, module.exports.organization), engine);
+        }
+
+        function main(e) {
+            engine = e;
+            return {
+                search: search,
+                list: list,
             };
-            if (module.exports.organization) {
-                options.headers["OpenAI-Organization"] = module.exports.organization;
-            }
-            request(options, function (error, response) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(JSON.parse(response.body));
-                }
-            });
-        });
-    },
+        }
 
-    engine: {
-        list: () => {
-            if (!module.exports.api_key) throw new Error("Missing API Key. openai.api_key = YOUR_API_KEY");
-            return new Promise((resolve, reject) => {
-                var options = {
-                    method: "GET",
-                    url: "https://api.openai.com/v1/engines",
-                    headers: {
-                        Authorization: `Bearer ${module.exports.api_key}`,
-                    },
-                };
-                if (module.exports.organization) {
-                    options.headers["OpenAI-Organization"] = module.exports.organization;
-                }
-                console.log(options);
-                request(options, function (error, response) {
-                    if (error) {
-                        reject(error);
-                    } else {
-                        resolve(JSON.parse(response.body));
-                    }
-                });
-            });
-        },
+        main.search = search;
+        main.list = list;
+        main.retreive = retreive;
+        return main;
+    })(),
 
-        retrieve: (engine_id) => {
-            if (!engine_id) throw new Error("Missing engine id. Usage: openai.retrieve('davinvi')");
-            if (!module.exports.api_key) throw new Error("Missing API Key. openai.api_key = YOUR_API_KEY");
-            return new Promise((resolve, reject) => {
-                var options = {
-                    method: "GET",
-                    url: `https://api.openai.com/v1/engines/${engine_id}`,
-                    headers: {
-                        Authorization: `Bearer ${module.exports.api_key}`,
-                    },
-                };
-                if (module.exports.organization) {
-                    options.headers["OpenAI-Organization"] = module.exports.organization;
-                }
-                request(options, function (error, response) {
-                    if (error) {
-                        reject(error);
-                    } else {
-                        resolve(JSON.parse(response.body));
-                    }
-                });
-            });
-        },
-    },
+    Classification: (function () {
+        function create(data) {
+            return ClassificationCreate(new Headers(module.exports.api_key, module.exports.organization), data);
+        }
 
-    search: ({ documents = [], query = null, engine = "davinci" } = {}) => {
-        if (documents.length === 0) throw new Error("Documents can't be empty");
-        if (!query) throw new Error("Missing query");
-        if (!module.exports.api_key) throw new Error("Missing API Key. openai.api_key = YOUR_API_KEY");
-        return new Promise((resolve, reject) => {
-            var options = {
-                method: "POST",
-                url: `https://api.openai.com/v1/engines/${engine}/search`,
-                headers: {
-                    Authorization: `Bearer ${module.exports.api_key}`,
-                    "Content-Type": "application/json",
-                },
+        return { create };
+    })(),
 
-                body: JSON.stringify({
-                    documents: documents,
-                    query: query,
-                }),
+    Answer: (function () {
+        function create(data) {
+            return AnswerCreate(new Headers(module.exports.api_key, module.exports.organization), data);
+        }
+
+        return { create };
+    })(),
+
+    File: (function () {
+        fileid = undefined;
+        function list() {
+            return FileList(new Headers(module.exports.api_key, module.exports.organization));
+        }
+
+        function create(data) {
+            return FileCreate(new Headers(module.exports.api_key, module.exports.organization), data);
+        }
+
+        function remove() {
+            return FileDelete(new Headers(module.exports.api_key, module.exports.organization), fileid);
+        }
+
+        function main(e) {
+            fileid = e;
+            return {
+                remove: remove,
             };
-            if (module.exports.organization) {
-                options.headers["OpenAI-Organization"] = module.exports.organization;
-            }
-            request(options, function (error, response) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(JSON.parse(response.body));
-                }
-            });
-        });
-    },
+        }
 
-    parseCompletion(res) {
-        return res.choices[0].text;
-    },
+        main.list = list;
+        main.create = create;
+        main.remove = remove;
+        return main;
+    })(),
 };
