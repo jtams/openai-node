@@ -18,8 +18,6 @@ _`organization` is optional for your organization ID, but if it's set to somethi
 
 Completion takes the normal GPT-3 parameters. The only one that is actually required in this library is `prompt`, the rest have the default values shown below.
 
-The response is the exact response OpenAI sends back but `openai.parseCompletion(response)` will just return the first completion choice you're likely looking for.
-
 ```js
 
 var  openai  =  require("openai-node");
