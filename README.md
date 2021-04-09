@@ -32,7 +32,7 @@ openai.Completion.create({
 	engine: "davinci",
 	prompt: "Original: She no went to the market.\nStandard American English:",
 	temperature: 1,
-	max_tokens: 64
+	max_tokens: 64,
 	top_p: 1,
 	frequency_penalty: 0,
 	presence_penalty: 1,
