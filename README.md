@@ -19,32 +19,29 @@ _`organization` is optional for your organization ID, but if it's set to somethi
 Completion takes the normal GPT-3 parameters. The only one that is actually required in this library is `prompt`, the rest have the default values shown below.
 
 ```js
+var openai = require("openai-node");
 
-var  openai  =  require("openai-node");
-
-openai.api_key  =  "YOUR API KEY"; // required
-openai.organization  =  "YOUR ORGANIZATION ID"; // optional
-
-
+openai.api_key = "YOUR API KEY"; // required
+openai.organization = "YOUR ORGANIZATION ID"; // optional
 
 //Completion
 openai.Completion.create({
-	engine: "davinci",
-	prompt: "Original: She no went to the market.\nStandard American English:",
-	temperature: 1,
-	max_tokens: 64,
-	top_p: 1,
-	frequency_penalty: 0,
-	presence_penalty: 1,
-	n: 1,
-	stream: false,
-	logprobs: null,
-	echo: false,
-	best_of: 1,
-	stop: null,
+    engine: "davinci",
+    prompt: "Original: She no went to the market.\nStandard American English:",
+    temperature: 1,
+    max_tokens: 64,
+    top_p: 1,
+    frequency_penalty: 0,
+    presence_penalty: 1,
+    n: 1,
+    stream: false,
+    logprobs: null,
+    echo: false,
+    best_of: 1,
+    stop: null,
 }).then((response) => {
-	console.log(response);
-	//EXAMPLE OUTPUT: She didn't go to the market.
+    console.log(response);
+    //EXAMPLE OUTPUT: She didn't go to the market.
 });
 ```
 
@@ -189,14 +186,16 @@ openai.Classification.create({
 Creates a new answer request. All parameters match OpenAI's. You can see them [here](https://beta.openai.com/docs/api-reference/answers/create)
 
 ```js
-openai.Answer.create(
-    (search_model: "ada"),
-    (mode: "curie"),
-    (question: "which puppy is happy?"),
-    (documents: ["Puppy A is happy.", "Puppy B is sad."]),
-    (examples_context: "In 2017, U.S. life expectancy was 78.6 years."),
-    (examples: [["What is human life expectancy in the United States?", "78 years."]]),
-    (max_tokens: 5),
-    (stop: ["\n", "<|endoftext|>"])
-);
+openai.Answer.create({
+	search_model: "ada",
+	mode: "curie",
+	question: "which puppy is happy?",
+	documents: ["Puppy A is happy.", "Puppy B is sad."],
+	examples_context: "In 2017, U.S. life expectancy was 78.6 years.",
+	examples: [["What is human life expectancy in the United States?", "78 years."]],
+	max_tokens: 5,
+	stop: ["\n", "<|endoftext|>"
+}).then(res => {
+	console.log(res);
+})
 ```
