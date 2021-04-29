@@ -22,9 +22,9 @@ module.exports = function (
     } = {}
 ) {
     if (!question) throw new Error("Missing query");
-    if (examples.length === 0 || !examples) throw new Error("Must have examples or file");
-    if (!examples_context.length) throw new Error("Must have examples_context");
-    if (documents.length === 0 && !file) throw new Error("Must have documents or file");
+    if (!examples) throw new Error("Must have examples");
+    if (!examples_context) throw new Error("Must have examples_context");
+    if (!documents && !file) throw new Error("Must have documents or file");
     if (!headers.api_key) throw new Error("Missing API Key. openai.api_key = YOUR_API_KEY");
     return new Promise((resolve, reject) => {
         var options = {
