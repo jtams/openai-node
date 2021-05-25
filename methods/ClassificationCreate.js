@@ -4,7 +4,7 @@ module.exports = function (
     headers,
     { model = "curie", query, examples, file, labels, search_model, temperature, logprops, max_examples, return_prompt, return_metadata, expand } = {}
 ) {
-    if (examples.length === 0 && !file) throw new Error("Must have examples or file");
+    if (!examples && !file) throw new Error("Must have examples or file");
     if (!query) throw new Error("Missing query");
     if (!headers.api_key) throw new Error("Missing API Key. openai.api_key = YOUR_API_KEY");
     return new Promise((resolve, reject) => {
