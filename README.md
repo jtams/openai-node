@@ -26,7 +26,7 @@ openai.organization = "YOUR ORGANIZATION ID"; // optional
 
 //Completion
 openai.Completion.create({
-    engine: "davinci",
+    model: "davinci",
     prompt: "Original: She no went to the market.\nStandard American English:",
     temperature: 1,
     max_tokens: 64,
