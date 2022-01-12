@@ -3,7 +3,7 @@ const request = require("request");
 module.exports = function (
     headers,
     {
-        engine = "davinci",
+        model = "davinci",
         prompt,
         temperature = 1,
         max_tokens = 64,
@@ -22,10 +22,11 @@ module.exports = function (
     return new Promise((resolve, reject) => {
         var options = {
             method: "POST",
-            url: `https://api.openai.com/v1/engines/${engine}/completions`,
+            url: `https://api.openai.com/v1/completions`,
             headers: headers.getHeaders(),
             body: JSON.stringify({
                 prompt: prompt,
+                model: model,
                 temperature: temperature,
                 max_tokens: max_tokens,
                 top_p: top_p,
